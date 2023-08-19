@@ -54,7 +54,8 @@ airflow connections add redshift --conn-uri 'redshift://awsuser:Wolfgang1401@def
 #
 # TO-DO: update the following bucket name to match the name of your S3 bucket and un-comment it:
 #
-airflow variables set s3_bucket traubs-pipeline-source
+#airflow variables set s3_bucket traubs-pipeline-source
+airflow variables set s3_bucket traubs-airflow-project
 #
 # TO-DO: un-comment the below line:
 #
