@@ -8,18 +8,19 @@ from airflow.operators.postgres_operator import PostgresOperator
 from final_project_operators.load_fact import LoadFactOperator
 from final_project_operators.load_dimension import LoadDimensionOperator
 from final_project_operators.data_quality import DataQualityOperator
-from udacity.common import final_project_sql_statements
+from udacity.common.final_project_sql_statements import SqlQueries
 
+s3_bucket = "traubs-airflow-project"
+events_s3_key = "log-data"
+songs_s3_key = "song-data/A/A/"
 
-# AWS_KEY = os.environ.get('AWS_KEY')
-# AWS_SECRET = os.environ.get('AWS_SECRET')
 
 default_args = {
     'owner': 'Benny',
     'depends_on_past': False,
     'start_date': pendulum.now(),
-    'retries': 3,
-    'retry_delay': timedelta(minutes=5),
+    #'retries': 3,
+    #'retry_delay': timedelta(minutes=5),
     'catchup': False,
     'email_on_retry': False
 
@@ -35,18 +36,43 @@ def airflow_project():
 
     start_operator = DummyOperator(task_id='Begin_execution')
 
+
     create_tables = PostgresOperator(
-        task_id="create_fact_and_dimension_tables",
-        postgres_conn_id="redshift",
-        sql='create_tables.sql'
+        task_id='create_fact_and_dimension_tables',
+        postgres_conn_id='redshift',  
+        sql=[
+        SqlQueries.staging_events_table_create,
+        SqlQueries.staging_songs_table_create,
+        SqlQueries.songplay_table_create,
+        SqlQueries.user_table_create,
+        SqlQueries.song_table_create,
+        SqlQueries.artist_table_create,
+        SqlQueries.time_table_create
+        ]
     )
+
 
     stage_events_to_redshift = StageToRedshiftOperator(
         task_id='Stage_events',
+        table="staging_events",
+        redshift_conn_id="redshift",
+        aws_credentials_id="aws_credentials",
+        s3_bucket="traubs-airflow-project",
+        s3_key="log_data",
+        additional_params="FORMAT AS JSON 's3://traubs-airflow-project/log_json_path.json'"
     )
+    
 
     stage_songs_to_redshift = StageToRedshiftOperator(
-        task_id='Stage_songs',
+        task_id="Stage_songs",
+        table="staging_songs",
+        redshift_conn_id="redshift",
+        aws_credentials_id="aws_credentials",
+        s3_bucket="traubs-airflow-project",
+        s3_key="song_data",
+        additional_params="JSON 'auto' COMPUPDATE OFF"
+
+        
     )
 
     load_songplays_table = LoadFactOperator(

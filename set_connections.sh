@@ -24,7 +24,7 @@
 #
 # TO-DO: Update the following command with the URI and un-comment it:
 #
-airflow connections add aws_credentials --conn-uri 'aws://AKIAQNUUCCDAZXNUBWGA:oDF0DHTBd6cqnWntNsfiGdD0uZadnAl1cSRO2FKL@'
+airflow connections add aws_credentials --conn-uri 'aws://***:**@'
 #
 #
 # TO-DO: run the follwing command and observe the JSON output: 
