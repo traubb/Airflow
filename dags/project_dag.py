@@ -79,7 +79,7 @@ def airflow_project():
         task_id='Load_songplays_fact_table',
         redshift_conn_id='redshift',
         table='songplays',
-        select_sql=SqlQueries.songplays_table_insert
+        sql=SqlQueries.songplays_table_insert
        
     )
 
