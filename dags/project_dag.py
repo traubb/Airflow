@@ -58,10 +58,11 @@ def airflow_project():
         redshift_conn_id="redshift",
         aws_credentials_id="aws_credentials",
         s3_bucket="traubs-airflow-project",
-        s3_key="log_data",
-        additional_params="FORMAT AS JSON 's3://traubs-airflow-project/log_json_path.json'"
+        s3_key="log_data/",
+        additional_params = {
+            "FORMAT": "JSON 's3://traubs-airflow-project/log_json_path.json'"
+        }
     )
-    
 
     stage_songs_to_redshift = StageToRedshiftOperator(
         task_id="Stage_songs",
@@ -69,10 +70,11 @@ def airflow_project():
         redshift_conn_id="redshift",
         aws_credentials_id="aws_credentials",
         s3_bucket="traubs-airflow-project",
-        s3_key="song_data",
-        additional_params="JSON 'auto' COMPUPDATE OFF"
-
-        
+        s3_key="song_data/",
+        additional_params = {
+            "JSON": "auto"
+        }
+   
     )
 
     load_songplays_table = LoadFactOperator(
