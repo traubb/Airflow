@@ -60,16 +60,11 @@ def airflow_project():
         aws_credentials_id="aws_credentials",
         s3_bucket="traubs-airflow-project",
         s3_key="log_data/",
-<<<<<<< HEAD
-        #additional_params = {
-        #    "FORMAT": "JSON 's3://traubs-airflow-project/log_json_path.json'"
-        #}
-=======
         additional_params = {
             "FORMAT": "JSON 's3://traubs-airflow-project/log_json_path.json'"
         }
->>>>>>> a872af15fe612615fba9087019550d80c84efa8e
     )
+
 
     stage_songs_to_redshift = StageToRedshiftOperator(
         task_id="Stage_songs",
@@ -78,16 +73,9 @@ def airflow_project():
         aws_credentials_id="aws_credentials",
         s3_bucket="traubs-airflow-project",
         s3_key="song_data/",
-<<<<<<< HEAD
-        #additional_params = {
-        #    "JSON": "auto"
-        #}
-=======
         additional_params = {
             "JSON": "auto"
         }
-   
->>>>>>> a872af15fe612615fba9087019550d80c84efa8e
     )
     
     
@@ -95,12 +83,7 @@ def airflow_project():
         task_id='Load_songplays_fact_table',
         redshift_conn_id='redshift',
         table='songplays',
-<<<<<<< HEAD
         target_sql=SqlQueries.songplays_table_insert 
-=======
-        sql=SqlQueries.songplays_table_insert
-       
->>>>>>> a872af15fe612615fba9087019550d80c84efa8e
     )
 
 
@@ -112,7 +95,6 @@ def airflow_project():
         append = False
     )
 
-    
 
     load_song_dimension_table = LoadDimensionOperator(
         task_id='Load_song_dim_table',
@@ -163,15 +145,7 @@ def airflow_project():
     )
 
     end_operator = DummyOperator(task_id='Stop_execution')
-<<<<<<< HEAD
-    
-    
+
     start_operator >> create_tables >> [stage_events_to_redshift, stage_songs_to_redshift] >> load_songplays_table>> [load_user_dimension_table, load_song_dimension_table, load_artist_dimension_table, load_time_dimension_table] >> run_quality_checks >> end_operator 
     
 airflow_project_dag = airflow_project()
-=======
-
-    start_operator >> create_tables >> [stage_events_to_redshift, stage_songs_to_redshift] >> load_songplays_table >> [load_user_dimension_table, load_song_dimension_table, load_artist_dimension_table, load_time_dimension_table] >> run_quality_checks >> end_operator
-
-airflow_project_dag = airflow_project()
->>>>>>> a872af15fe612615fba9087019550d80c84efa8e
