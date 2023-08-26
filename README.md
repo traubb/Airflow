@@ -18,3 +18,8 @@ airflow scheduler
 
 Nach opt
 /home/workspace/airflow/dags/cd0031-automate-data-pipelines/set_connections.sh ```
+
+## Files
+In the following are the needed files listed as well is their functionality breefly described
+
+

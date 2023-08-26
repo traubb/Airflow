@@ -12,7 +12,7 @@ class StageToRedshiftOperator(BaseOperator):
         FROM '{}'
         ACCESS_KEY_ID '{}'
         SECRET_ACCESS_KEY '{}'
-        {}
+        additional_params '{}'
         ;
     """
 
@@ -49,7 +49,6 @@ class StageToRedshiftOperator(BaseOperator):
             s3_path,
             credentials.access_key,
             credentials.secret_key,
-            self.region,
             self.additional_params
         )
         
