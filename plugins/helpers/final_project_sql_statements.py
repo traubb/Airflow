@@ -21,6 +21,7 @@ class SqlQueries:
             userid int4
         )
     '''
+<<<<<<< HEAD
 
     staging_songs_table_create = '''
         CREATE TABLE IF NOT EXISTS public.staging_songs (
@@ -86,6 +87,73 @@ class SqlQueries:
         )
     '''
 
+=======
+
+    staging_songs_table_create = '''
+        CREATE TABLE IF NOT EXISTS public.staging_songs (
+            num_songs int4,
+            artist_id varchar(256),
+            artist_name varchar(256),
+            artist_latitude numeric(18,0),
+            artist_longitude numeric(18,0),
+            artist_location varchar(256),
+            song_id varchar(256),
+            title varchar(256),
+            duration numeric(18,0),
+            "year" int4
+        )
+    '''
+
+    songplays_table_create = '''
+        CREATE TABLE IF NOT EXISTS public.songplays (
+            playid varchar(32) NOT NULL,
+            start_time timestamp NOT NULL,
+            userid int4 NOT NULL,
+            "level" varchar(256),
+            songid varchar(256),
+            artistid varchar(256),
+            sessionid int4,
+            location varchar(256),
+            user_agent varchar(256),
+            CONSTRAINT songplays_pkey PRIMARY KEY (playid)
+        )
+    '''
+
+    artists_table_create = '''
+        CREATE TABLE IF NOT EXISTS public.artists (
+            artistid varchar(256) NOT NULL,
+            name varchar(256),
+            location varchar(256),
+            lattitude numeric(18,0),
+            longitude numeric(18,0)
+        )
+    '''
+
+    songs_table_create = '''
+        CREATE TABLE IF NOT EXISTS public.songs (
+            songid varchar(256) NOT NULL,
+            title varchar(256),
+            artistid varchar(256),
+            "year" int4,
+            duration numeric(18,0),
+            CONSTRAINT songs_pkey PRIMARY KEY (songid)
+        )
+    '''
+
+    time_table_create = '''
+        CREATE TABLE IF NOT EXISTS public."time" (
+            start_time timestamp NOT NULL,
+            "hour" int4,
+            "day" int4,
+            week int4,
+            "month" varchar(256),
+            "year" int4,
+            weekday varchar(256),
+            CONSTRAINT time_pkey PRIMARY KEY (start_time)
+        )
+    '''
+
+>>>>>>> a872af15fe612615fba9087019550d80c84efa8e
     users_table_create = '''
         CREATE TABLE IF NOT EXISTS public.users (
             userid int4 NOT NULL,
@@ -97,6 +165,7 @@ class SqlQueries:
         )
     '''
     songplays_table_insert = '''
+<<<<<<< HEAD
         SELECT md5(events.sessionid || events.start_time) songplay_id, events.start_time, events.userid, events.level, songs.song_id, songs.artist_id, events.sessionid, events.location, events.useragent\
         FROM (SELECT TIMESTAMP 'epoch' + ts/1000 * interval '1 second' AS start_time, *
         FROM staging_events
@@ -105,6 +174,25 @@ class SqlQueries:
         ON events.song = songs.title
         AND events.artist = songs.artist_name
         AND events.length = songs.duration
+=======
+        SELECT
+            md5(events.sessionid || events.start_time) songplay_id,
+            events.start_time,
+            events.userid,
+            events.level,
+            songs.song_id,
+            songs.artist_id,
+            events.sessionid,
+            events.location,
+            events.useragent
+        FROM (SELECT TIMESTAMP 'epoch' + ts/1000 * interval '1 second' AS start_time, *
+            FROM staging_events
+            WHERE page='NextSong') events
+        LEFT JOIN staging_songs songs
+        ON events.song = songs.title
+            AND events.artist = songs.artist_name
+            AND events.length = songs.duration
+>>>>>>> a872af15fe612615fba9087019550d80c84efa8e
         WHERE songs.song_id IS NOT NULL
     '''
 

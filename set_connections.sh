@@ -50,7 +50,7 @@ airflow connections add aws_credentials --conn-uri 'aws://***:**@'
 #
 # TO-DO: Update the following command with the URI and un-comment it:
 #
-airflow connections add redshift --conn-uri 'redshift://awsuser:Wolfgang1401@default.029301543105.us-east-1.redshift-serverless.amazonaws.com:5439/dev'
+airflow connections add redshift --conn-uri 'redshift://awsuser:@default.029301543105.us-east-1.redshift-serverless.amazonaws.com:5439/dev'
 #
 # TO-DO: update the following bucket name to match the name of your S3 bucket and un-comment it:
 #
