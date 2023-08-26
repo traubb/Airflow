@@ -65,6 +65,9 @@ def airflow_project():
         }
     )
 
+    # Unfortunately there is an error with the additional_params here, which could't solve so far. 
+    # In generel with adding the log_jon_path.json as a copy format. My ticket is still open:https://knowledge.udacity.com/questions/1003541
+
 
     stage_songs_to_redshift = StageToRedshiftOperator(
         task_id="Stage_songs",
