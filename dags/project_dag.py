@@ -65,7 +65,7 @@ def airflow_project():
         }
     )
 
-    # Unfortunately there is an error with the additional_params here, which could't solve so far. 
+    # Unfortunately there is an error with the additional_params of the StageToRedshiftOperator here, which could't solve so far. 
     # In generel with adding the log_jon_path.json as a copy format. My ticket is still open:https://knowledge.udacity.com/questions/1003541
 
 
